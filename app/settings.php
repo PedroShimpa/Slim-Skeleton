@@ -14,13 +14,23 @@ return function (ContainerBuilder $containerBuilder) {
         SettingsInterface::class => function () {
             return new Settings([
                 'displayErrorDetails' => true, // Should be set to false in production
-                'logError'            => false,
-                'logErrorDetails'     => false,
+                'logError'            => true,
+                'logErrorDetails'     => true,
                 'logger' => [
                     'name' => 'slim-app',
                     'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                     'level' => Logger::DEBUG,
                 ],
+                'db' => [
+                    'driver' => 'mysql',
+                    'host' => 'mariadb',
+                    'database' => 'estacioneaqui',
+                    'username' => 'pedro',
+                    'password' => '1234',
+                    'charset' => 'utf8',
+                    'collation' => 'utf8_unicode_ci',
+                    'prefix' => ''
+                ]
             ]);
         }
     ]);

@@ -16,3 +16,28 @@ services:
         volumes:
             - .:/var/www
             - logs:/var/www/logs
+        links:
+            - mariadb
+        depends_on:
+            - mariadb
+        build:
+            context: .
+            dockerfile: Dockerfile
+
+    mariadb:
+      image: mariadb:latest
+      environment:
+        MYSQL_ROOT_PASSWORD: 1234
+        MYSQL_DATABASE: estacioneaqui
+        MYSQL_USER: pedro
+        MYSQL_PASSWORD: 1234
+      volumes:
+       - /var/lib/mysql
+      ports:
+        - "3306:3306"
+    composer:
+      image: composer:2
+      volumes:
+        - ./:/var/www/html
+      working_dir: /var/www/html
+      command: ["update", "--ignore-platform-reqs"]
